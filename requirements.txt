@@ -1,1 +1,4 @@
 opencv-python
+deepface
+scikit-learn
+numpy

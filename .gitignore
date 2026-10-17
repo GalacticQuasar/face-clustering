@@ -1,2 +1,5 @@
 .venv/
 input/
+
+# Ignore saved numpy array files
+*.npy
