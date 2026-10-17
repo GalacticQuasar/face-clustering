@@ -1,5 +1,11 @@
 .venv/
 input/
 
+# Cache
+__pycache__/
+
 # Ignore saved numpy array files
 *.npy
+
+# Ignore outputs
+clustering_results.txt

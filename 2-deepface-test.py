@@ -1,5 +1,6 @@
 from fileinput import filename
 import os
+import cv2
 import numpy as np
 from deepface import DeepFace
 from sklearn.cluster import DBSCAN
@@ -28,7 +29,7 @@ def get_image_paths(directory: str):
 
     return image_paths
 
-def get_embeddings(image_path: str, model_name: str = "Facenet512"):
+def get_embeddings(image_path: str, model_name: str = "Facenet512", max_side: int = 1920):
     """
     Detects faces in the image and extracts embeddings using DeepFace.
 
@@ -43,9 +44,17 @@ def get_embeddings(image_path: str, model_name: str = "Facenet512"):
     print("Processing file:", filename)
     
     try:
+        # Downscale large photos so detection doesn't run out of memory
+        img = cv2.imread(image_path)
+        if img is None:
+            raise ValueError("could not read image")
+        scale = max_side / max(img.shape[:2])
+        if scale < 1:
+            img = cv2.resize(img, None, fx=scale, fy=scale, interpolation=cv2.INTER_AREA)
+
         # DeepFace.represent returns a list of dicts (one for each face detected)
         representation = DeepFace.represent(
-            img_path=image_path,
+            img_path=img,
             model_name=model_name,
             enforce_detection=False
         )
