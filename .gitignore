@@ -9,3 +9,6 @@ __pycache__/
 
 # Ignore outputs
 clustering_results.txt
+
+# Sorted face output
+output/
